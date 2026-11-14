@@ -1,4 +1,6 @@
 mod core;
+
+slint::include_modules!();
 ///use crate::core::app_model::AppModel;
 use crate::core::config::{ConfigManager, DockConfig, CONFIG_FILE,};
 use crate::core::launcher::Launcher;
@@ -38,7 +40,7 @@ fn main() {
 }
 */
 
-
+/*
 fn main() {
 
     let config =
@@ -56,4 +58,15 @@ fn main() {
         println!("No apps configured");
     }
 
+    //disini ui
+    let ui = AppWindow::new().unwrap();
+    
+    ui.run().unwrap();
+
+} */
+
+fn main() -> Result<(), slint::PlatformError> {
+    let ui = AppWindow::new()?;
+    ui.run()?;
+    Ok(())
 }
