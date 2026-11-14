@@ -1,0 +1,34 @@
+import { Button } from "std-widgets.slint";
+
+export component AppWindow inherits Window {
+    title: "HandyDock";
+    width: 400px;
+    height: 250px;
+
+    in property <string> app1;
+    in property <string> app2;
+    in property <string> app3;
+
+    callback app1_clicked();
+    callback app2_clicked();
+    callback app3_clicked();
+
+    VerticalLayout {
+
+        Button {
+            text: root.app1;
+            clicked => { root.app1_clicked(); }
+        }
+
+        Button {
+            text: root.app2;
+            clicked => { root.app2_clicked(); }
+        }
+
+        Button {
+            text: root.app3;
+            clicked => { root.app3_clicked(); }
+        }
+
+    }
+}

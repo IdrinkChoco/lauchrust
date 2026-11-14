@@ -1,59 +1,69 @@
 mod core;
-///use crate::core::app_model::AppModel;
-use crate::core::config::{ConfigManager, DockConfig, CONFIG_FILE,};
+
+use crate::core::config::ConfigManager;
+use crate::core::config::CONFIG_FILE;
 use crate::core::launcher::Launcher;
-/*
-fn main() {
 
-    let config = DockConfig {
+slint::include_modules!();
 
-        apps: vec![
-
-            AppModel {
-                name: "Chrome".into(),
-                path: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe".into(),
-            },
-
-            AppModel {
-                name: "VS Code".into(),
-                path: "C:\\Program Files\\Microsoft VS Code\\Code.exe".into(),
-            },
-
-        ],
-
-    };
-
-    ConfigManager::save(
-        CONFIG_FILE,
-        &config,
-    ).unwrap();
-
-    
-    println!("Config saved");
-    let loaded =
-        ConfigManager::load_default()
-            .unwrap();
-    println!("{:#?}", loaded);
-
-}
-*/
-
-
-fn main() {
+fn main() -> Result<(), slint::PlatformError> {
 
     let config =
         ConfigManager::load(CONFIG_FILE)
-            .unwrap();
+            .expect("failed loading config");
 
-    if let Some(app) =
-        config.apps.first()
-    {
-        Launcher::launch(app)
-            .unwrap();
+    let app1 = config.apps.get(0).cloned();
+    let app2 = config.apps.get(1).cloned();
+    let app3 = config.apps.get(2).cloned(); 
 
-        println!("Launched: {}", app.name);
-    } else {
-        println!("No apps configured");
+    let ui = AppWindow::new()?;
+
+    if let Some(app) = &app1 {
+        ui.set_app1(app.name.clone().into());
     }
 
+    if let Some(app) = &app2 {
+        ui.set_app2(app.name.clone().into());
+    }
+
+    if let Some(app) = &app3 {
+        ui.set_app3(app.name.clone().into());
+    }
+
+ui.on_app1_clicked(move || {
+    if let Some(app) = &app1 {
+
+        println!("Launching {}", app.name);
+
+        if let Err(err) = Launcher::launch(app) {
+            eprintln!("Launch error: {}", err);
+        }
+    }
+});
+
+ui.on_app2_clicked(move || {
+    if let Some(app) = &app2 {
+
+        println!("Launching {}", app.name);
+
+        if let Err(err) = Launcher::launch(app) {
+            eprintln!("Launch error: {}", err);
+        }
+    }
+});
+
+ui.on_app3_clicked(move || {
+    if let Some(app) = &app3 {
+
+        println!("Launching {}", app.name);
+
+        if let Err(err) = Launcher::launch(app) {
+            eprintln!("Launch error: {}", err);
+        }
+    }
+});
+
+    ui.run()?;
+
+    Ok(())
 }
