@@ -1,12 +1,8 @@
 {
   "apps": [
     {
-      "name": "Chrome",
-      "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
-    },
-    {
-      "name": "VS Code",
-      "path": "C:\\Program Files\\Microsoft VS Code\\Code.exe"
+      "name": "Notepad",
+      "path": "C:\\Windows\\System32\\notepad.exe"
     }
   ]
 }

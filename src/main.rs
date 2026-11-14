@@ -1,6 +1,6 @@
 mod core;
-use crate::core::app_model::AppModel;
-///use crate::core::config::{ConfigManager, DockConfig, CONFIG_FILE,};
+///use crate::core::app_model::AppModel;
+use crate::core::config::{ConfigManager, DockConfig, CONFIG_FILE,};
 use crate::core::launcher::Launcher;
 /*
 fn main() {
@@ -41,17 +41,19 @@ fn main() {
 
 fn main() {
 
-    let app = AppModel {
+    let config =
+        ConfigManager::load(CONFIG_FILE)
+            .unwrap();
 
-        name: "Notepad".into(),
+    if let Some(app) =
+        config.apps.first()
+    {
+        Launcher::launch(app)
+            .unwrap();
 
-        path:
-            "C:\\Windows\\System32\\notepad.exe"
-                .into(),
-
-    };
-
-    Launcher::launch_path(&app.path)
-    .unwrap();
+        println!("Launched: {}", app.name);
+    } else {
+        println!("No apps configured");
+    }
 
 }
